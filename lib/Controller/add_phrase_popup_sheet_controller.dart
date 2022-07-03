@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 
 class AddPhrasePopupSheetController {
   late final BuildContext _context;
-  final _phraseTextFieldController = TextEditingController();
+  final _kanaTextFieldController = TextEditingController();
+  final _kanjiTextFieldController = TextEditingController();
   final _meaningTextFieldController = TextEditingController();
   late final GlobalKey<HomePageListViewState> _homeListViewKey;
 
@@ -15,7 +16,11 @@ class AddPhrasePopupSheetController {
   }
 
   TextEditingController get phraseTextFieldController {
-    return _phraseTextFieldController;
+    return _kanaTextFieldController;
+  }
+
+  TextEditingController get kanjiTextFieldController {
+    return _kanjiTextFieldController;
   }
 
   TextEditingController get meaningTextFieldController {
@@ -27,12 +32,13 @@ class AddPhrasePopupSheetController {
   }
 
   void dispose() {
-    _phraseTextFieldController.dispose();
+    _kanaTextFieldController.dispose();
+    _kanjiTextFieldController.dispose();
     _meaningTextFieldController.dispose();
   }
 
   bool checkIsNotEmpty() {
-    return (_phraseTextFieldController.text.isNotEmpty &&
+    return (_kanaTextFieldController.text.isNotEmpty &&
         _meaningTextFieldController.text.isNotEmpty);
   }
 
@@ -55,21 +61,23 @@ class AddPhrasePopupSheetController {
 
   void onSubmit() async {
     final regx = RegExp(
-        r'[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]+');
+        r'[\u3000-\u303f\u3040-\u309f\u30a0-\u30ff\uff00-\uff9f\u4e00-\u9faf\u3400-\u4dbf]?');
     if (checkIsNotEmpty()) {
-      if (regx.hasMatch(_phraseTextFieldController.text)) {
+      if (regx.hasMatch(_kanaTextFieldController.text) &&
+          regx.hasMatch(_kanjiTextFieldController.text)) {
         PhraseDataModel model = PhraseDataModel(
-            phrase: _phraseTextFieldController.text,
+            kana: _kanaTextFieldController.text,
+            kanji: _kanjiTextFieldController.text,
             meaning: _meaningTextFieldController.text);
         PhraseDataDB.insertPhrase(model);
         // add data in view
         _homeListViewKey.currentState?.addData(model);
         Navigator.of(_context).pop();
       } else {
-        _showAlertDialog("The phrase must be japanese!");
+        _showAlertDialog("Kana and kanji must be japanese!");
       }
     } else {
-      _showAlertDialog("Phrase and meaning can't be empty!");
+      _showAlertDialog("Kana and meaning can't be empty!");
     }
   }
 }

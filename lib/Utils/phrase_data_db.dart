@@ -10,7 +10,7 @@ class PhraseDataDB {
             "japanese_learning.db"), // path of database
         onCreate: (db, version) {
       return db.execute(
-          "CREATE TABLE Phrases(id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, meaning TEXT, time TEXT)");
+          "CREATE TABLE Phrases(id INTEGER PRIMARY KEY AUTOINCREMENT, kana TEXT, kanji TEXT, meaning TEXT, time TEXT)");
     }, version: 1);
   }
 
@@ -35,7 +35,8 @@ class PhraseDataDB {
         maps.length,
         (index) => PhraseDataModel(
             id: maps[index]['id'],
-            phrase: maps[index]['phrase'],
+            kana: maps[index]['kana'],
+            kanji: maps[index]['kanji'],
             meaning: maps[index]['meaning'],
             time: maps[index]['time']));
   }

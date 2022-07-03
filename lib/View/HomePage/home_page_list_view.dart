@@ -1,4 +1,4 @@
-import 'package:arashi/Controller/home_page_view__controller.dart';
+import 'package:arashi/Controller/home_page_list_view__controller.dart';
 import 'package:arashi/Model/phrase_data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -45,9 +45,36 @@ class HomePageListViewState extends State<HomePageListView> {
             itemCount: data.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                title: Text(data[index].phrase),
-                subtitle: Text(data[index].meaning),
+              PhraseDataModel model = data[index];
+              return Dismissible(
+                key: Key(model.id.toString()),
+                background: Container(
+                  color: Colors.red,
+                  child: const Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 15),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                confirmDismiss: (direction) async {
+                  if (direction == DismissDirection.startToEnd) {
+                    debugPrint("left to right");
+                    return false;
+                  } else {
+                    _controller.deleteData(model.id!);
+                    return true;
+                  }
+                },
+                child: ListTile(
+                  title:
+                      model.kanji == "" ? Text(model.kana) : Text(model.kanji!),
+                  subtitle: Text(model.meaning),
+                ),
               );
             },
           );
