@@ -1,15 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:arashi/Controller/add_phrase_popup_sheet_controller.dart';
+import 'package:arashi/View/HomePage/home_page_list_view.dart';
+import 'package:flutter/material.dart';
 
 class AddPhrasePopupSheetView extends StatefulWidget {
-  const AddPhrasePopupSheetView({Key? key}) : super(key: key);
+  const AddPhrasePopupSheetView(this.homeListViewKey, {Key? key})
+      : super(key: key);
+  final GlobalKey<HomePageListViewState> homeListViewKey;
 
   @override
   AddPhrasePopupSheetViewState createState() => AddPhrasePopupSheetViewState();
 }
 
 class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
-  final _controller = AddPhrasePopupSheetViewController();
+  late final AddPhrasePopupSheetController _controller;
+  @override
+  void initState() {
+    _controller = AddPhrasePopupSheetController(widget.homeListViewKey);
+    super.initState();
+  }
 
   @override
   void dispose() {

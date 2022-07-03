@@ -1,12 +1,15 @@
 class PhraseDataModel {
-  final int id;
+  final int? id;
   final String phrase;
   final String meaning;
+  final String? time;
+
   PhraseDataModel(
-      {required this.id, required this.phrase, required this.meaning});
+      {this.id, required this.phrase, required this.meaning, this.time});
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'phrase': phrase, 'meaning': meaning};
+    time ?? DateTime.now().toIso8601String();
+    return {'phrase': phrase, 'meaning': meaning, 'time': time};
   }
 
   PhraseDataModel fromMap(Map<String, dynamic> map) {

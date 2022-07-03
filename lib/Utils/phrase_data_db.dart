@@ -10,7 +10,7 @@ class PhraseDataDB {
             "japanese_learning.db"), // path of database
         onCreate: (db, version) {
       return db.execute(
-          "CREATE TABLE Phrases(id INTEGER PRIMARY KEY, phrase TEXT, meaning TEXT)");
+          "CREATE TABLE Phrases(id INTEGER PRIMARY KEY AUTOINCREMENT, phrase TEXT, meaning TEXT, time TEXT)");
     }, version: 1);
   }
 
@@ -36,7 +36,8 @@ class PhraseDataDB {
         (index) => PhraseDataModel(
             id: maps[index]['id'],
             phrase: maps[index]['phrase'],
-            meaning: maps[index]['meaning']));
+            meaning: maps[index]['meaning'],
+            time: maps[index]['time']));
   }
 
   static Future<void> updatePhrase(PhraseDataModel phraseDataModel) async {
@@ -45,8 +46,13 @@ class PhraseDataDB {
         where: 'id = ?', whereArgs: [phraseDataModel.id]);
   }
 
-  static Future<void> deleteDog(int id) async {
+  static Future<void> deletePhrase(int id) async {
     final db = await database;
     await db.delete('Phrases', where: 'id = ?', whereArgs: [id]);
+  }
+
+  static void closePhraseDb() async {
+    final db = await database;
+    await db.close();
   }
 }
