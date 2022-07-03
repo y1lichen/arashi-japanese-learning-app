@@ -6,6 +6,10 @@ class HomePageListViewController {
     return PhraseDataDB.getAllPhrases();
   }
 
+  void deleteData(int id) {
+    PhraseDataDB.deletePhrase(id);
+  }
+
   static Future<List<PhraseDataModel>> appendElements(
       Future<List<PhraseDataModel>> appendedList,
       PhraseDataModel elementsToAdd) async {

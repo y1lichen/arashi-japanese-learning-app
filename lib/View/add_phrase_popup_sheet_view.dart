@@ -45,13 +45,17 @@ class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
       ),
       contentPadding: const EdgeInsets.all(10),
       content: SizedBox(
-        height: 120,
+        height: 150,
         child: Form(
           child: Column(
             children: [
               TextFormField(
                 controller: _controller.phraseTextFieldController,
-                decoration: const InputDecoration(hintText: "Phrase(Japanese)"),
+                decoration: const InputDecoration(hintText: "Kana(仮名)"),
+              ),
+              TextFormField(
+                controller: _controller.kanjiTextFieldController,
+                decoration: const InputDecoration(hintText: "Kanji(漢字)"),
               ),
               TextFormField(
                 controller: _controller.meaningTextFieldController,
