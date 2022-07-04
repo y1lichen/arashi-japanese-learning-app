@@ -1,4 +1,4 @@
-import 'package:arashi/Controller/add_phrase_popup_sheet_controller.dart';
+import 'package:arashi/Controller/edit_phrase_data_controller.dart';
 import 'package:arashi/Model/phrase_data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -11,13 +11,13 @@ class EditListItemView extends StatefulWidget {
 }
 
 class _EditListItemViewState extends State<EditListItemView> {
-  late AddPhrasePopupSheetController _controller;
+  late EditPhraseDataController _controller;
 
   @override
   Widget build(BuildContext context) {
-    _controller = AddPhrasePopupSheetController(context);
+    _controller = EditPhraseDataController(context);
     _controller.setTextOfKanaTextField(widget.model.kana);
-    _controller.setTextOfKanjiTextField(widget.model.kanji!);
+    _controller.setTextOfKanjiTextField(widget.model.kanji ?? "");
     _controller.setTextOfMeaningTextField(widget.model.meaning);
 
     return Scaffold(
@@ -25,7 +25,7 @@ class _EditListItemViewState extends State<EditListItemView> {
         actions: <Widget>[
           TextButton(
               onPressed: () {
-                _controller.submitToUpdate();
+                _controller.submitToUpdate(widget.model);
               },
               style: TextButton.styleFrom(primary: Colors.white),
               child: const Text("Save"))

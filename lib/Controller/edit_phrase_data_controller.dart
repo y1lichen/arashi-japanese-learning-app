@@ -88,6 +88,7 @@ class EditPhraseDataController {
           kanji: _kanjiTextFieldController.text,
           meaning: _meaningTextFieldController.text,
           time: originalModel.time);
+      PhraseDataDB.updatePhrase(newModel);
     }
   }
 

@@ -1,4 +1,4 @@
-import 'package:arashi/Controller/add_phrase_popup_sheet_controller.dart';
+import 'package:arashi/Controller/edit_phrase_data_controller.dart';
 import 'package:arashi/View/HomePage/home_page_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +12,7 @@ class AddPhrasePopupSheetView extends StatefulWidget {
 }
 
 class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
-  late final AddPhrasePopupSheetController _controller;
-  @override
-  void initState() {
-    _controller = AddPhrasePopupSheetController(widget.homeListViewKey);
-    super.initState();
-  }
+  late final EditPhraseDataController _controller;
 
   @override
   void dispose() {
@@ -27,12 +22,12 @@ class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
 
   @override
   Widget build(BuildContext context) {
-    _controller.setContext(context);
+    _controller = EditPhraseDataController(context, widget.homeListViewKey);
     return AlertDialog(
       actions: [
         TextButton(
             onPressed: () {
-              _controller.onSubmit();
+              _controller.submitToInsert();
             },
             child: const Text("add"))
       ],
@@ -50,7 +45,7 @@ class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
           child: Column(
             children: [
               TextFormField(
-                controller: _controller.phraseTextFieldController,
+                controller: _controller.kanaTextFieldController,
                 decoration: const InputDecoration(hintText: "Kana(仮名)"),
               ),
               TextFormField(

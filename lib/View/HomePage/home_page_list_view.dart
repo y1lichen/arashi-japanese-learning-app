@@ -1,5 +1,6 @@
 import 'package:arashi/Controller/home_page_list_view__controller.dart';
 import 'package:arashi/Model/phrase_data_model.dart';
+import 'package:arashi/View/edit_list_item_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePageListView extends StatefulWidget {
@@ -51,9 +52,9 @@ class HomePageListViewState extends State<HomePageListView> {
                 background: Container(
                   color: Colors.red,
                   child: const Align(
-                    alignment: Alignment.centerRight,
+                    alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(right: 15),
+                      padding: EdgeInsets.only(left: 15),
                       child: Icon(
                         Icons.delete,
                         color: Colors.white,
@@ -61,19 +62,27 @@ class HomePageListViewState extends State<HomePageListView> {
                     ),
                   ),
                 ),
+                // set only swipe from left to right
+                direction: DismissDirection.startToEnd,
                 confirmDismiss: (direction) async {
                   if (direction == DismissDirection.startToEnd) {
-                    debugPrint("left to right");
-                    return false;
-                  } else {
                     _controller.deleteData(model.id!);
                     return true;
                   }
+                  return false;
                 },
                 child: ListTile(
                   title:
                       model.kanji == "" ? Text(model.kana) : Text(model.kanji!),
                   subtitle: Text(model.meaning),
+                  trailing: const Icon(Icons.arrow_right_sharp),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditListItemView(model: model)));
+                  },
                 ),
               );
             },
