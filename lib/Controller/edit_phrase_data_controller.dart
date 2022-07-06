@@ -1,6 +1,5 @@
 import 'package:arashi/Model/phrase_data_model.dart';
 import 'package:arashi/Utils/phrase_data_db.dart';
-import 'package:arashi/View/HomePage/home_page_list_view.dart';
 import 'package:flutter/cupertino.dart';
 
 class EditPhraseDataController {
@@ -8,9 +7,8 @@ class EditPhraseDataController {
   final _kanaTextFieldController = TextEditingController();
   final _kanjiTextFieldController = TextEditingController();
   final _meaningTextFieldController = TextEditingController();
-  late final GlobalKey<HomePageListViewState>? homeListViewKey;
 
-  EditPhraseDataController(this._context, [this.homeListViewKey]);
+  EditPhraseDataController(this._context);
 
   TextEditingController get kanaTextFieldController {
     return _kanaTextFieldController;
@@ -80,7 +78,7 @@ class EditPhraseDataController {
     return true;
   }
 
-  void submitToUpdate(PhraseDataModel originalModel) async {
+  PhraseDataModel? submitToUpdate(PhraseDataModel originalModel) {
     if (_isValid()) {
       PhraseDataModel newModel = PhraseDataModel(
           id: originalModel.id,
@@ -89,10 +87,12 @@ class EditPhraseDataController {
           meaning: _meaningTextFieldController.text,
           time: originalModel.time);
       PhraseDataDB.updatePhrase(newModel);
+      return newModel;
     }
+    return null;
   }
 
-  void submitToInsert() async {
+  PhraseDataModel? submitToInsert() {
     if (_isValid()) {
       PhraseDataModel model = PhraseDataModel(
           kana: _kanaTextFieldController.text,
@@ -100,8 +100,9 @@ class EditPhraseDataController {
           meaning: _meaningTextFieldController.text);
       PhraseDataDB.insertPhrase(model);
       // add data in view
-      homeListViewKey?.currentState?.addData(model);
       Navigator.of(_context).pop();
+      return model;
     }
+    return null;
   }
 }

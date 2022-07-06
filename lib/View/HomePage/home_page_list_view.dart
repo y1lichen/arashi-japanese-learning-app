@@ -13,17 +13,27 @@ class HomePageListView extends StatefulWidget {
 class HomePageListViewState extends State<HomePageListView> {
   late Future<List<PhraseDataModel>> data;
 
-  final HomePageListViewController _controller = HomePageListViewController();
-
   Future<void> addData(PhraseDataModel model) async {
     setState(() {
       data = HomePageListViewController.appendElements(data, model);
     });
   }
 
+  Future<void> updateData(PhraseDataModel newModel) async {
+    setState(() {
+      data = HomePageListViewController.updateAndGetNewData(data, newModel);
+    });
+  }
+
+  Future<void> deleteData(PhraseDataModel model) async {
+    setState(() {
+      data = HomePageListViewController.deleteAndGetData(data, model);
+    });
+  }
+
   @override
   void initState() {
-    data = _controller.fetchData();
+    data = HomePageListViewController.fetchData();
     super.initState();
   }
 
@@ -66,7 +76,7 @@ class HomePageListViewState extends State<HomePageListView> {
                 direction: DismissDirection.startToEnd,
                 confirmDismiss: (direction) async {
                   if (direction == DismissDirection.startToEnd) {
-                    _controller.deleteData(model.id!);
+                    deleteData(model);
                     return true;
                   }
                   return false;
@@ -80,8 +90,10 @@ class HomePageListViewState extends State<HomePageListView> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                EditListItemView(model: model)));
+                            builder: (context) => EditListItemView(
+                                  model: model,
+                                  updateDataInView: updateData,
+                                )));
                   },
                 ),
               );

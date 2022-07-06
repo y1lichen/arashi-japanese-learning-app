@@ -1,4 +1,5 @@
 import 'package:arashi/View/HomePage/home_page_list_view.dart';
+import 'package:arashi/View/PracticeView/practice_view.dart';
 import 'package:arashi/View/add_phrase_popup_sheet_view.dart';
 import 'package:flutter/material.dart';
 
@@ -51,6 +52,14 @@ class _HomePageState extends State<HomePageView> {
         child: HomePageListView(
           key: widget.homeListViewKey,
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.play_arrow),
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const PracticeView()));
+        },
       ),
     );
   }

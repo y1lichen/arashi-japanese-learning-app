@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 
 class EditListItemView extends StatefulWidget {
   final PhraseDataModel model;
-  const EditListItemView({Key? key, required this.model}) : super(key: key);
+  final Function(PhraseDataModel) updateDataInView;
+  const EditListItemView(
+      {Key? key, required this.model, required this.updateDataInView})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _EditListItemViewState();
@@ -25,7 +28,11 @@ class _EditListItemViewState extends State<EditListItemView> {
         actions: <Widget>[
           TextButton(
               onPressed: () {
-                _controller.submitToUpdate(widget.model);
+                PhraseDataModel? newModel =
+                    _controller.submitToUpdate(widget.model);
+                if (newModel != null) {
+                  widget.updateDataInView(newModel);
+                }
               },
               style: TextButton.styleFrom(primary: Colors.white),
               child: const Text("Save"))

@@ -1,4 +1,5 @@
 import 'package:arashi/Controller/edit_phrase_data_controller.dart';
+import 'package:arashi/Model/phrase_data_model.dart';
 import 'package:arashi/View/HomePage/home_page_list_view.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +23,15 @@ class AddPhrasePopupSheetViewState extends State<AddPhrasePopupSheetView> {
 
   @override
   Widget build(BuildContext context) {
-    _controller = EditPhraseDataController(context, widget.homeListViewKey);
+    _controller = EditPhraseDataController(context);
     return AlertDialog(
       actions: [
         TextButton(
             onPressed: () {
-              _controller.submitToInsert();
+              PhraseDataModel? model = _controller.submitToInsert();
+              if (model != null) {
+                widget.homeListViewKey.currentState?.addData(model);
+              }
             },
             child: const Text("add"))
       ],
