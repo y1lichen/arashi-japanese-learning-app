@@ -23,6 +23,14 @@ class _HomePageState extends State<HomePageView> {
         });
   }
 
+  int dataLength = 0;
+
+  setDataLength(int length) {
+    setState(() {
+      dataLength = length;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,16 +59,21 @@ class _HomePageState extends State<HomePageView> {
         // in the middle of the parent.
         child: HomePageListView(
           key: widget.homeListViewKey,
+          setDataLength: setDataLength,
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.play_arrow),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const PracticeView()));
-        },
-      ),
+      floatingActionButton: dataLength > 0
+          ? FloatingActionButton(
+              child: const Icon(Icons.play_arrow),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const PracticeView()));
+              },
+            )
+          : null,
     );
   }
 }

@@ -38,7 +38,7 @@ class HomePageListViewController {
       Future<List<PhraseDataModel>> appendedList,
       PhraseDataModel elementsToAdd) async {
     final list = await appendedList;
-    list.addAll([elementsToAdd]);
+    list.add(elementsToAdd);
     return list;
   }
 }

@@ -4,7 +4,9 @@ import 'package:arashi/View/edit_list_item_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePageListView extends StatefulWidget {
-  const HomePageListView({Key? key}) : super(key: key);
+  final Function(int) setDataLength;
+  const HomePageListView({Key? key, required this.setDataLength})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => HomePageListViewState();
@@ -13,10 +15,16 @@ class HomePageListView extends StatefulWidget {
 class HomePageListViewState extends State<HomePageListView> {
   late Future<List<PhraseDataModel>> data;
 
+  void setDataLength() async {
+    final list = await data;
+    widget.setDataLength(list.length);
+  }
+
   Future<void> addData(PhraseDataModel model) async {
     setState(() {
       data = HomePageListViewController.appendElements(data, model);
     });
+    setDataLength();
   }
 
   Future<void> updateData(PhraseDataModel newModel) async {
@@ -29,11 +37,13 @@ class HomePageListViewState extends State<HomePageListView> {
     setState(() {
       data = HomePageListViewController.deleteAndGetData(data, model);
     });
+    setDataLength();
   }
 
   @override
   void initState() {
     data = HomePageListViewController.fetchData();
+    setDataLength();
     super.initState();
   }
 
