@@ -31,8 +31,7 @@ dependencies:
     sdk: flutter
   sqflite:
   path:
-  firebase_mlkit_language:
-
+  flutter_tts:
 
 
   # The following adds the Cupertino Icons font to your application.
