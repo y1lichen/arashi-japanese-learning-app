@@ -1,6 +1,7 @@
 import 'package:arashi/View/HomePage/home_page_list_view.dart';
 import 'package:arashi/View/PracticeView/practice_view.dart';
 import 'package:arashi/View/add_phrase_popup_sheet_view.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
 
 class HomePageView extends StatefulWidget {
@@ -29,6 +30,22 @@ class _HomePageState extends State<HomePageView> {
     setState(() {
       dataLength = length;
     });
+  }
+
+  void permit() async {
+    PermissionStatus status =
+        await Permission.microphone.request().then((value) {
+      return value;
+    });
+    if (status.isGranted) {
+      debugPrint("granted");
+    }
+  }
+
+  @override
+  void initState() {
+    permit();
+    super.initState();
   }
 
   @override

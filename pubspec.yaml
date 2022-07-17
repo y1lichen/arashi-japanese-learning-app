@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   sqflite:
   path:
+  permission_handler:
   flutter_tts:
 
 
