@@ -33,6 +33,7 @@ dependencies:
   path:
   permission_handler:
   flutter_tts:
+  speech_to_text:
 
 
   # The following adds the Cupertino Icons font to your application.
